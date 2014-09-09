@@ -1,0 +1,56 @@
+/*TODO TEMP STYLES*/
+
+.vanilla-accordion {
+	width; 75%;
+	list-style-type: none;
+	border-top: 1px solid #666;
+	margin: 0 auto;
+	padding: 0;
+}
+
+.vanilla-accordion > .panel {
+	/*border-top: 1px solid #666;*/
+}
+ive
+.vanilla-accordion header {
+	background-color: #ccc;
+	border-bottom: 1px solid #666;
+}
+.vanilla-accordion header h1 {
+	margin: 0;
+	padding: 10px;
+	color: #333;
+}
+.vanilla-accordion header h1:hover {
+	cursor: pointer;
+}
+
+.vanilla-accordion .content {
+	background-color: #f1f1f1;
+	padding: 10px;
+}
+
+.vanilla-accordion .toggleable-hidden .content {
+	display : none;
+}
+.vanilla-accordion .toggleable-active .content {
+	display : block;
+}
+
+
+.vanilla-accordion .content p {
+	
+}
+
+/*TODO TEMP STYLES*/
+
+.cFix:after {
+	content : " ";
+	height: 0;
+	width: 0;
+	line-height: 0;
+	font-size: 0;
+	display: block;
+	clear: both;
+}
+
