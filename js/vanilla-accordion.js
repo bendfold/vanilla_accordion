@@ -2,32 +2,17 @@
 
 var VanillaAccordion = function( el, extendObj ) {
 	var defaults = {
-			"foo" : "bar",
-			// COLLECTIONS
-			"TRANSFORM_PREFIX_COLLECTION" : ["transform", "-ms-transform", "-moz-transform", "-webkit-transform", "-o-transform"],
-			"TRANSFORM_ATTR_PREFIX_COLLECTION" : ["transform", "msTransform", "MozTransform", "webkitTransform", "OTransform"],
-			"TRANSITION_ATTR_PREFIX_COLLECTION" : ["transition", "msTransition", "MozTransition", "webkitTransition", "OTransition"],
-		},
-		elems = {
-			el : el,
-			wrapperElem : el.getElementsByClassName( 'todo' )
+			"jsActiveClass" : "accordion-init"
 		},
 		config = JSON.parse( el.dataset.accordConfig ),
-		// TODO
-		oTools = window.oTools;
-	
-	console.log('document ', el.getElementsByClassName( config.panelClass ) );
-
-	config.panelCollection = el.getElementsByClassName( config.panelClass );
-	
-	console.log( 'config ', config );
-	// console.log( 'this ', this );
-	// console.log( 'el ', el );
-
-
+		elems = {
+			el : el,
+			panelCollection : el.getElementsByClassName( config.panelClass )
+		};
 
 	// Create global config object
 	this.config = oTools.fn.extendObj( defaults, config );
+	
 	// Make objects availible to rest of script
 	this.elems = elems;
 	// Kick it off
@@ -45,13 +30,26 @@ var methods = {
 		this.attachEvents();
 	},
 	setupMarkup : function() {
-		console.log( "setupMarkup fired" );
-		// Add toggleable-hidden class to all panels
-		// Add toggleable class to all panels
+		 
+		var el = this.elems.el;
+		// Add class to wrapper to let CSS know we can hide the content
+		el.classList.add( this.config.jsActiveClass );
+
 		return true;
 	},
 	attachEvents : function () {
+		var panelCollection = this.elems.panelCollection;
+		// console.log( 'this.config ', this.config );
+		// Add toggleable-hidden class to all panels
+		for ( var i = 0; i < panelCollection.length; i += 1 ) {
+			panelCollection[ i ].addEventListener( 'click', oTools.fn.bindEvents(this, 'toogleVisibility'), false );
+		}
+
 		// foo.addEventListener('click', oTools.fn.bindEvents(this, 'bar'), false);
+	},
+	toogleVisibility : function ( self ) {
+		console.log('Class toggling', self.target);
+
 	}
 }
 

@@ -11,7 +11,7 @@
 .vanilla-accordion > .panel {
 	/*border-top: 1px solid #666;*/
 }
-ive
+
 .vanilla-accordion header {
 	background-color: #ccc;
 	border-bottom: 1px solid #666;
@@ -30,10 +30,10 @@ ive
 	padding: 10px;
 }
 
-.vanilla-accordion .toggleable-hidden .content {
+.vanilla-accordion.accordion-init .content {
 	display : none;
 }
-.vanilla-accordion .toggleable-active .content {
+.vanilla-accordion .panel-is-visible .content {
 	display : block;
 }
 

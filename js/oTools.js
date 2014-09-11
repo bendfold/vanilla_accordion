@@ -33,11 +33,14 @@ oTools.fn.extendObj = function( defaultObj, overideObj ) {
 				if ( overideObj.hasOwnProperty( item ) ) {
 					if ( currentKey === item ) {
 						defaultObj[ currentKey ] = overideObj[ item ];
+					} else {
+						defaultObj[ item ] = overideObj[ item ];
 					}
 				}
 			}
 		}
 	}
+
 	return defaultObj;
 }
 
