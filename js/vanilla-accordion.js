@@ -49,11 +49,16 @@ var methods = {
 			myParentNode = this.closest( clickedElem, this.config.panelClass ),
 			panelCollection = this.elems.panelCollection;
 		
-		// Remove all visble classes
-		for ( var i = 0; i < panelCollection.length; i += 1 ) {
-			panelCollection[i].classList.remove( this.config.activeClass );
+		if ( myParentNode.classList.contains( this.config.activeClass ) ) {
+			myParentNode.classList.remove( this.config.activeClass );
+		} else {
+			// Remove all visble classes
+			for ( var i = 0; i < panelCollection.length; i += 1 ) {
+				panelCollection[i].classList.remove( this.config.activeClass );
+			}
+			myParentNode.classList.add( this.config.activeClass );
+
 		}
-		myParentNode.classList.add( this.config.activeClass );
 	},
 	closest : function ( sourceElem, selector ) {
 		while ( sourceElem ) {
