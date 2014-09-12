@@ -7,12 +7,13 @@ var VanillaAccordion = function( el, extendObj ) {
 		config = JSON.parse( el.dataset.accordConfig ),
 		elems = {
 			el : el,
-			panelCollection : el.getElementsByClassName( config.panelClass )
+			panelCollection : el.getElementsByClassName( config.panelClass ),
+			triggerCollection : el.getElementsByClassName( config.trigger )
 		};
 
 	// Create global config object
 	this.config = oTools.fn.extendObj( defaults, config );
-	
+
 	// Make objects availible to rest of script
 	this.elems = elems;
 	// Kick it off
@@ -30,7 +31,6 @@ var methods = {
 		this.attachEvents();
 	},
 	setupMarkup : function() {
-		 
 		var el = this.elems.el;
 		// Add class to wrapper to let CSS know we can hide the content
 		el.classList.add( this.config.jsActiveClass );
@@ -38,18 +38,30 @@ var methods = {
 		return true;
 	},
 	attachEvents : function () {
-		var panelCollection = this.elems.panelCollection;
-		// console.log( 'this.config ', this.config );
+		var triggerCollection = this.elems.triggerCollection;
 		// Add toggleable-hidden class to all panels
-		for ( var i = 0; i < panelCollection.length; i += 1 ) {
-			panelCollection[ i ].addEventListener( 'click', oTools.fn.bindEvents(this, 'toogleVisibility'), false );
+		for ( var i = 0; i < triggerCollection.length; i += 1 ) {
+			triggerCollection[ i ].addEventListener( 'click', oTools.fn.bindEvents(this, 'toogleVisibility'), false );
 		}
-
-		// foo.addEventListener('click', oTools.fn.bindEvents(this, 'bar'), false);
 	},
 	toogleVisibility : function ( self ) {
-		console.log('Class toggling', self.target);
-
+		var clickedElem = self.target,
+			myParentNode = this.closest( clickedElem, this.config.panelClass ),
+			panelCollection = this.elems.panelCollection;
+		
+		// Remove all visble classes
+		for ( var i = 0; i < panelCollection.length; i += 1 ) {
+			panelCollection[i].classList.remove( this.config.activeClass );
+		}
+		myParentNode.classList.add( this.config.activeClass );
+	},
+	closest : function ( sourceElem, selector ) {
+		while ( sourceElem ) {
+			if( sourceElem.classList.contains(selector) ){
+				return sourceElem;
+			}
+			sourceElem = sourceElem.parentNode;
+		}
 	}
 }
 
