@@ -2,7 +2,13 @@
 
 var VanillaAccordion = function( el, extendObj ) {
 	var defaults = {
-			"jsActiveClass" : "accordion-init"
+			"jsActiveClass" : "accordion-init",
+			// "vendorPrefixes" : {
+			// 	"transitionAttributePrefix" : ["transition", "msTransition", "MozTransition", "webkitTransition", "OTransition"],
+			// 	"transformAttributePrefix" : ["transform", "msTransform", "MozTransform", "webkitTransform", "OTransform"],
+			// 	"transformPrefix" : ["transform", "-ms-transform", "-moz-transform", "-webkit-transform", "-o-transform"]
+			// }
+			"vendorPrefixes" : oTools.fn.setVendorPrefix()
 		},
 		config = JSON.parse( el.dataset.accordConfig ),
 		elems = {
@@ -10,6 +16,8 @@ var VanillaAccordion = function( el, extendObj ) {
 			panelCollection : el.getElementsByClassName( config.panelClass ),
 			triggerCollection : el.getElementsByClassName( config.trigger )
 		};
+
+console.log( 'defaults ', defaults);
 
 	// Create global config object
 	this.config = oTools.fn.extendObj( defaults, config );
@@ -24,7 +32,7 @@ var VanillaAccordion = function( el, extendObj ) {
 var methods = {
 	init : function() {
 		// Set vendor preixes for animation etc
-		// this.setVendorPrefix();
+		// oTools.fn.setVendorPrefix( this.config.vendorPrefixes );
 		// Set up the HTML accordingly
 		this.setupMarkup();
 		// Attach click events to panel headers
@@ -49,15 +57,18 @@ var methods = {
 			myParentNode = this.closest( clickedElem, this.config.panelClass ),
 			panelCollection = this.elems.panelCollection;
 		
+		console.log( this.config.vendorPrefixes );
+
 		if ( myParentNode.classList.contains( this.config.activeClass ) ) {
+			// Remove the active class from my parent
 			myParentNode.classList.remove( this.config.activeClass );
 		} else {
 			// Remove all visble classes
 			for ( var i = 0; i < panelCollection.length; i += 1 ) {
 				panelCollection[i].classList.remove( this.config.activeClass );
 			}
+			// Add the active class to the parent node
 			myParentNode.classList.add( this.config.activeClass );
-
 		}
 	},
 	closest : function ( sourceElem, selector ) {

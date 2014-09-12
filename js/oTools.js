@@ -71,9 +71,15 @@ oTools.fn.getVendorPrefix = function ( prefixCollection ) {
 	return result;
 };
 
-oTools.fn.setVendorPrefix = function ( prefixObj ) {
+oTools.fn.setVendorPrefix = function ( ) {
 	var config = this.config,
-		vendorPrefixes = prefixObj;
+		vendorPrefixes = {
+			"transitionAttributePrefix" : ["transition", "msTransition", "MozTransition", "webkitTransition", "OTransition"],
+			"transformAttributePrefix" : ["transform", "msTransform", "MozTransform", "webkitTransform", "OTransform"],
+			"transformPrefix" : ["transform", "-ms-transform", "-moz-transform", "-webkit-transform", "-o-transform"]
+		};
+
+console.log( 'vendorPrefixes ', vendorPrefixes );
 
 	for ( var item in vendorPrefixes ) {
 		if( vendorPrefixes.hasOwnProperty( item ) ){
@@ -81,7 +87,7 @@ oTools.fn.setVendorPrefix = function ( prefixObj ) {
 			vendorPrefixes[item] = prefix;
 		}
 	}
-	return;
+	return vendorPrefixes;
 };
 
 
