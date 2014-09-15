@@ -78,9 +78,6 @@ oTools.fn.setVendorPrefix = function ( ) {
 			"transformAttributePrefix" : ["transform", "msTransform", "MozTransform", "webkitTransform", "OTransform"],
 			"transformPrefix" : ["transform", "-ms-transform", "-moz-transform", "-webkit-transform", "-o-transform"]
 		};
-
-console.log( 'vendorPrefixes ', vendorPrefixes );
-
 	for ( var item in vendorPrefixes ) {
 		if( vendorPrefixes.hasOwnProperty( item ) ){
 			var prefix = oTools.fn.getVendorPrefix( vendorPrefixes[item] );
