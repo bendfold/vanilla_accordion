@@ -3,18 +3,13 @@
 var VanillaAccordion = function( el, extendObj ) {
 	var defaults = {
 			"jsActiveClass" : "accordion-init",
-			// "vendorPrefixes" : {
-			// 	"transitionAttributePrefix" : ["transition", "msTransition", "MozTransition", "webkitTransition", "OTransition"],
-			// 	"transformAttributePrefix" : ["transform", "msTransform", "MozTransform", "webkitTransform", "OTransform"],
-			// 	"transformPrefix" : ["transform", "-ms-transform", "-moz-transform", "-webkit-transform", "-o-transform"]
-			// }
 			"vendorPrefixes" : oTools.fn.setVendorPrefix()
 		},
 		config = JSON.parse( el.dataset.accordConfig ),
 		elems = {
 			el : el,
 			panelCollection : el.getElementsByClassName( config.panelClass ),
-			triggerCollection : el.getElementsByClassName( config.trigger )
+			triggerCollection : el.getElementsByClassName( config.trigger ),
 		};
 
 console.log( 'defaults ', defaults);
@@ -42,6 +37,10 @@ var methods = {
 		var el = this.elems.el;
 		// Add class to wrapper to let CSS know we can hide the content
 		el.classList.add( this.config.jsActiveClass );
+
+		
+		console.log('panelCollection ', this.elems.panelCollection);
+
 
 		return true;
 	},
@@ -71,6 +70,7 @@ var methods = {
 			myParentNode.classList.add( this.config.activeClass );
 		}
 	},
+	// TODO - LIFT THIS OUT TO LIB
 	closest : function ( sourceElem, selector ) {
 		while ( sourceElem ) {
 			if( sourceElem.classList.contains(selector) ){
