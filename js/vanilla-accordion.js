@@ -3,7 +3,10 @@
 var VanillaAccordion = function( el, extendObj ) {
 	var defaults = {
 			"jsActiveClass" : "accordion-init",
-			"vendorPrefixes" : oTools.fn.setVendorPrefix()
+			"vendorPrefixes" : oTools.fn.setVendorPrefix(),
+			"classNames" : {
+				"contentWrapClass" : "content-wrapper"
+			}
 		},
 		config = JSON.parse( el.dataset.accordConfig ),
 		elems = {
@@ -12,7 +15,7 @@ var VanillaAccordion = function( el, extendObj ) {
 			triggerCollection : el.getElementsByClassName( config.trigger ),
 		};
 
-console.log( 'defaults ', defaults);
+	console.log( 'defaults ', defaults);
 
 	// Create global config object
 	this.config = oTools.fn.extendObj( defaults, config );
@@ -34,14 +37,16 @@ var methods = {
 		this.attachEvents();
 	},
 	setupMarkup : function() {
-		var el = this.elems.el;
+		var el = this.elems.el,
+			config = this.config,
+			panelCollection = this.elems.panelCollection;
 		// Add class to wrapper to let CSS know we can hide the content
 		el.classList.add( this.config.jsActiveClass );
-
-		
-		console.log('panelCollection ', this.elems.panelCollection);
-
-
+		// Wrap each content container in an outter div that we can hide
+		for ( var i = 0; i < panelCollection.length; i += 1 ) {
+			var targetElem = panelCollection[i].getElementsByClassName( config.panelContent );
+			this.wrapElem( targetElem );
+		}
 		return true;
 	},
 	attachEvents : function () {
@@ -56,7 +61,7 @@ var methods = {
 			myParentNode = this.closest( clickedElem, this.config.panelClass ),
 			panelCollection = this.elems.panelCollection;
 		
-		console.log( this.config.vendorPrefixes );
+		// console.log( this.config.vendorPrefixes );
 
 		if ( myParentNode.classList.contains( this.config.activeClass ) ) {
 			// Remove the active class from my parent
@@ -69,6 +74,15 @@ var methods = {
 			// Add the active class to the parent node
 			myParentNode.classList.add( this.config.activeClass );
 		}
+	},
+	wrapElem : function ( targetElem ) {
+		
+		var docFrag = document.createDocumentFragment(),
+			contentWrapper = document.createElement( 'div' );
+
+		contentWrapper.classList.add( this.config.classNames.contentWrapClass );
+			
+		console.log( 'contentWrapper ', contentWrapper );
 	},
 	// TODO - LIFT THIS OUT TO LIB
 	closest : function ( sourceElem, selector ) {
