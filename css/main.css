@@ -30,11 +30,9 @@
 	padding: 10px;
 }
 
-.vanilla-accordion.accordion-init .content {
-	display : none;
-}
-.vanilla-accordion .panel-is-visible .content {
-	display : block;
+.vanilla-accordion.accordion-init .content-wrapper {
+	height: 0;
+	overflow: hidden;
 }
 
 

@@ -4,6 +4,7 @@ var VanillaAccordion = function( el, extendObj ) {
 	var defaults = {
 			"jsActiveClass" : "accordion-init",
 			"vendorPrefixes" : oTools.fn.setVendorPrefix(),
+			"panelHeights" : [],
 			"classNames" : {
 				"contentWrapClass" : "content-wrapper"
 			}
@@ -14,6 +15,7 @@ var VanillaAccordion = function( el, extendObj ) {
 			panelCollection : el.getElementsByClassName( config.panelClass ),
 			triggerCollection : el.getElementsByClassName( config.trigger ),
 		};
+
 
 	console.log( 'defaults ', defaults);
 
@@ -42,12 +44,18 @@ var methods = {
 			panelCollection = this.elems.panelCollection;
 		// Add class to wrapper to let CSS know we can hide the content
 		el.classList.add( this.config.jsActiveClass );
-		// Wrap each content container in an outter div that we can hide
+		// Process the panels and set a few things up
 		for ( var i = 0; i < panelCollection.length; i += 1 ) {
-			var targetElem = panelCollection[i].getElementsByClassName( config.panelContent );
-			var wrappedContent = this.wrapElem( targetElem[0] );
+			var targetElem = panelCollection[i].getElementsByClassName( config.panelContent ),
+				// Wrap each content container in an outter div that we can hide
+				wrappedContent = this.wrapElem( targetElem[0] );
+			// Add our wrapped content to the DOM
 			panelCollection[i].appendChild( wrappedContent );
+			// Meausure the height of each inner content div
+			this.config.panelHeights.push( targetElem[0].offsetHeight );
+			// console.log( 'height ', targetElem[0].offsetHeight );
 		}
+		console.log('config ', config );
 		return true;
 	},
 	attachEvents : function () {
