@@ -45,7 +45,8 @@ var methods = {
 		// Wrap each content container in an outter div that we can hide
 		for ( var i = 0; i < panelCollection.length; i += 1 ) {
 			var targetElem = panelCollection[i].getElementsByClassName( config.panelContent );
-			this.wrapElem( targetElem );
+			var wrappedContent = this.wrapElem( targetElem[0] );
+			panelCollection[i].appendChild( wrappedContent );
 		}
 		return true;
 	},
@@ -79,11 +80,28 @@ var methods = {
 		
 		var docFrag = document.createDocumentFragment(),
 			contentWrapper = document.createElement( 'div' );
-
 		contentWrapper.classList.add( this.config.classNames.contentWrapClass );
-			
-		console.log( 'contentWrapper ', contentWrapper );
+		docFrag.appendChild( contentWrapper );
+		docFrag.childNodes[0].appendChild( targetElem );
+		
+		console.log( 'docFrag.childNodes[0] ', docFrag.childNodes[0] );
+		console.log( 'targetElem ', typeof targetElem );
+
+		return docFrag;
 	},
+
+	// wrapInViewport : function ( ) {
+	// 	var caroWrapper = this.elems.wrapperElem[0];
+	// 	var docFrag = document.createDocumentFragment();
+	// 	var viewPort = document.createElement( 'div' );
+	// 	viewPort.classList.add( 'caro-frame', 'cFix' );
+	// 	docFrag.appendChild( viewPort );
+	// 	docFrag.childNodes[0].appendChild( caroWrapper );
+	// 	// Get caro list from DOM
+	// 	return docFrag;
+	// },
+	
+
 	// TODO - LIFT THIS OUT TO LIB
 	closest : function ( sourceElem, selector ) {
 		while ( sourceElem ) {
