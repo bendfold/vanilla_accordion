@@ -17,7 +17,7 @@ var VanillaAccordion = function( el, extendObj ) {
 		};
 
 
-	console.log( 'defaults ', defaults);
+	// console.log( 'defaults ', defaults);
 
 	// Create global config object
 	this.config = oTools.fn.extendObj( defaults, config );
@@ -49,13 +49,17 @@ var methods = {
 			var targetElem = panelCollection[i].getElementsByClassName( config.panelContent ),
 				// Wrap each content container in an outter div that we can hide
 				wrappedContent = this.wrapElem( targetElem[0] );
+			
 			// Add our wrapped content to the DOM
 			panelCollection[i].appendChild( wrappedContent );
+			
+			// this.wrapContent();
+
+			// this.getSetContentHeights();
+
 			// Meausure the height of each inner content div
 			this.config.panelHeights.push( targetElem[0].offsetHeight );
-			// console.log( 'height ', targetElem[0].offsetHeight );
 		}
-		console.log('config ', config );
 		return true;
 	},
 	attachEvents : function () {
@@ -82,7 +86,11 @@ var methods = {
 			}
 			// Add the active class to the parent node
 			myParentNode.classList.add( this.config.activeClass );
+			this.showContent( clickedElem );
 		}
+	},
+	showContent : function ( clickedElem ) {
+		console.log( 'clickedElem ', clickedElem );
 	},
 	wrapElem : function ( targetElem ) {
 		
@@ -92,8 +100,8 @@ var methods = {
 		docFrag.appendChild( contentWrapper );
 		docFrag.childNodes[0].appendChild( targetElem );
 		
-		console.log( 'docFrag.childNodes[0] ', docFrag.childNodes[0] );
-		console.log( 'targetElem ', typeof targetElem );
+		// console.log( 'docFrag.childNodes[0] ', docFrag.childNodes[0] );
+		// console.log( 'targetElem ', typeof targetElem );
 
 		return docFrag;
 	},
