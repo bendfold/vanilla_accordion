@@ -7,7 +7,8 @@ var VanillaAccordion = function( el, extendObj ) {
 			"panelHeights" : [],
 			"classNames" : {
 				"contentWrapClass" : "content-wrapper"
-			}
+			},
+			"scrollSpeed" : 600
 		},
 		config = JSON.parse( el.dataset.accordConfig ),
 		elems = {
@@ -18,7 +19,9 @@ var VanillaAccordion = function( el, extendObj ) {
 
 
 	// console.log( 'defaults ', defaults);
-
+	this.numbers = {
+		"panelHeights" : []
+	}
 	// Create global config object
 	this.config = oTools.fn.extendObj( defaults, config );
 
@@ -57,11 +60,8 @@ var methods = {
 			panelCollection[i].appendChild( wrappedContent );
 
 			// Meausure the height of each inner content div
-			this.config.panelHeights.push( targetElem[0].offsetHeight );
+			this.numbers.panelHeights.push( targetElem[0].offsetHeight );
 		}
-		
-		console.log( this.config.panelHeights );
-
 		return true;
 	},
 	attachEvents : function () {
@@ -93,24 +93,31 @@ var methods = {
 			}
 			// Add the active class to the parent node
 			myParentNode.classList.add( this.config.activeClass );
-			panelIndex = myParentNode.dataset.index;
-			this.showContent( clickedElem, panelIndex );
+			// panelIndex = myParentNode.dataset.index;
+			this.numbers.panelIndex = myParentNode.dataset.index;
+			this.showContent( clickedElem );
 		}
 	},
 	showContent : function ( clickedElem ) {
 		console.log( 'clickedElem ', clickedElem );
+
+		this.cssTransform();
 	},
 	hideContent : function ( clickedElem ) {
 		// TODO - Make a switch here to toggle target height between 0 & max-height
 		console.log( 'clickedElem ', clickedElem );
 	},
 	cssTransform : function () {
-		var 
-			// itemWrapper = this.elems.wrapperElem[0],
-			// itemWidth = this.numbers.itemWidth,
-			// scrollSpeed = this.config.scrollSpeed,
-			// newXpos = (!this.config.vertical) ? (this.numbers.itemWidth * this.numbers.currentItem) : 0,
-			// newYpos = (this.config.vertical) ? (this.numbers.itemHeight * this.numbers.currentItem) : 0;
+		
+		console.log( 'this.numbers.panelIndex ', typeof this.numbers.panelIndex );
+
+		var panelIndex = parseInt( this.numbers.panelIndex ),
+			targetPanel = this.elems.panelCollection[ panelIndex ],
+			contentWrapper = '',
+			scrollSpeed = this.config.scrollSpeed,
+			panelHeight = this.numbers.panelHeights[ panelIndex ];
+
+		console.log( 'targetPanel ', targetPanel, scrollSpeed, panelHeight );
 
 /*
 	.our {
@@ -122,7 +129,7 @@ var methods = {
 	}
 */
 
-		// itemWrapper.style[this.config.vendorPrefixes.transitionAttributePrefix] = this.config.vendorPrefixes.transformPrefix + ' ' + scrollSpeed + 'ms';
+		contentWrapper.style[this.config.vendorPrefixes.transitionAttributePrefix] = this.config.vendorPrefixes.transformPrefix + ' ' + scrollSpeed + 'ms';
 		// itemWrapper.style[this.config.vendorPrefixes.transformAttributePrefix] = 'translate3d(' + '-' + newXpos + 'px, ' + '-' + newYpos + 'px,  0)';
 	},
 	wrapElem : function ( targetElem ) {
