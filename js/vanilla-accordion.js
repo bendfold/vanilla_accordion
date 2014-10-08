@@ -46,20 +46,22 @@ var methods = {
 		el.classList.add( this.config.jsActiveClass );
 		// Process the panels and set a few things up
 		for ( var i = 0; i < panelCollection.length; i += 1 ) {
+			
+			panelCollection[i].setAttribute( 'data-index', i );
+
 			var targetElem = panelCollection[i].getElementsByClassName( config.panelContent ),
 				// Wrap each content container in an outter div that we can hide
 				wrappedContent = this.wrapElem( targetElem[0] );
 			
 			// Add our wrapped content to the DOM
 			panelCollection[i].appendChild( wrappedContent );
-			
-			// this.wrapContent();
-
-			// this.getSetContentHeights();
 
 			// Meausure the height of each inner content div
 			this.config.panelHeights.push( targetElem[0].offsetHeight );
 		}
+		
+		console.log( this.config.panelHeights );
+
 		return true;
 	},
 	attachEvents : function () {
@@ -72,13 +74,18 @@ var methods = {
 	toogleVisibility : function ( self ) {
 		var clickedElem = self.target,
 			myParentNode = this.closest( clickedElem, this.config.panelClass ),
-			panelCollection = this.elems.panelCollection;
+			panelCollection = this.elems.panelCollection,
+			panelIndex = 0;
 		
-		// console.log( this.config.vendorPrefixes );
+		console.log( 'clickedElem ', clickedElem );
+		console.log( 'myParentNode ', myParentNode );
+		console.log( 'myParentNode ', myParentNode.dataset.index );
+		console.log( 'panelCollection ', panelCollection );
 
 		if ( myParentNode.classList.contains( this.config.activeClass ) ) {
 			// Remove the active class from my parent
 			myParentNode.classList.remove( this.config.activeClass );
+			// panelIndex = myParentNode.dataset.index;
 		} else {
 			// Remove all visble classes
 			for ( var i = 0; i < panelCollection.length; i += 1 ) {
@@ -86,11 +93,37 @@ var methods = {
 			}
 			// Add the active class to the parent node
 			myParentNode.classList.add( this.config.activeClass );
-			this.showContent( clickedElem );
+			panelIndex = myParentNode.dataset.index;
+			this.showContent( clickedElem, panelIndex );
 		}
 	},
 	showContent : function ( clickedElem ) {
 		console.log( 'clickedElem ', clickedElem );
+	},
+	hideContent : function ( clickedElem ) {
+		// TODO - Make a switch here to toggle target height between 0 & max-height
+		console.log( 'clickedElem ', clickedElem );
+	},
+	cssTransform : function () {
+		var 
+			// itemWrapper = this.elems.wrapperElem[0],
+			// itemWidth = this.numbers.itemWidth,
+			// scrollSpeed = this.config.scrollSpeed,
+			// newXpos = (!this.config.vertical) ? (this.numbers.itemWidth * this.numbers.currentItem) : 0,
+			// newYpos = (this.config.vertical) ? (this.numbers.itemHeight * this.numbers.currentItem) : 0;
+
+/*
+	.our {
+		height 0
+		transition height 800ms
+	}
+	.our:hover {
+		height 200px
+	}
+*/
+
+		// itemWrapper.style[this.config.vendorPrefixes.transitionAttributePrefix] = this.config.vendorPrefixes.transformPrefix + ' ' + scrollSpeed + 'ms';
+		// itemWrapper.style[this.config.vendorPrefixes.transformAttributePrefix] = 'translate3d(' + '-' + newXpos + 'px, ' + '-' + newYpos + 'px,  0)';
 	},
 	wrapElem : function ( targetElem ) {
 		
