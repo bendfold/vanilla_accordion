@@ -77,10 +77,10 @@ var methods = {
 			panelCollection = this.elems.panelCollection,
 			panelIndex = 0;
 		
-		console.log( 'clickedElem ', clickedElem );
-		console.log( 'myParentNode ', myParentNode );
-		console.log( 'myParentNode ', myParentNode.dataset.index );
-		console.log( 'panelCollection ', panelCollection );
+		// console.log( 'clickedElem ', clickedElem );
+		// console.log( 'myParentNode ', myParentNode );
+		// console.log( 'myParentNode ', myParentNode.dataset.index );
+		// console.log( 'panelCollection ', panelCollection );
 
 		if ( myParentNode.classList.contains( this.config.activeClass ) ) {
 			// Remove the active class from my parent
@@ -113,12 +113,13 @@ var methods = {
 
 		var panelIndex = parseInt( this.numbers.panelIndex ),
 			targetPanel = this.elems.panelCollection[ panelIndex ],
-			contentWrapper = '',
+			// contentWrapper = targetPanel.childNode(),
 			scrollSpeed = this.config.scrollSpeed,
 			panelHeight = this.numbers.panelHeights[ panelIndex ];
 
-		console.log( 'targetPanel ', targetPanel, scrollSpeed, panelHeight );
-
+		console.log( 'targetPanel  selecto', targetPanel.querySelector( '.content' ) );
+		console.log( 'targetPanel  selecto', targetPanel.querySelector( '.' + this.config.classNames.contentWrapClass ) );
+		console.log( '.'+ this.config.classNames.contentWrapClass, typeof this.config.classNames.contentWrapClass );
 /*
 	.our {
 		height 0
@@ -129,7 +130,7 @@ var methods = {
 	}
 */
 
-		contentWrapper.style[this.config.vendorPrefixes.transitionAttributePrefix] = this.config.vendorPrefixes.transformPrefix + ' ' + scrollSpeed + 'ms';
+		// contentWrapper.style[this.config.vendorPrefixes.transitionAttributePrefix] = this.config.vendorPrefixes.transformPrefix + ' ' + scrollSpeed + 'ms';
 		// itemWrapper.style[this.config.vendorPrefixes.transformAttributePrefix] = 'translate3d(' + '-' + newXpos + 'px, ' + '-' + newYpos + 'px,  0)';
 	},
 	wrapElem : function ( targetElem ) {
@@ -166,6 +167,9 @@ var methods = {
 			}
 			sourceElem = sourceElem.parentNode;
 		}
+	},
+	find : function ( sourceElem, selector ) {
+		
 	}
 }
 
