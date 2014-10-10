@@ -31,8 +31,9 @@
 }
 
 .vanilla-accordion.accordion-init .content-wrapper {
-	height: 0;
 	overflow: hidden;
+	height: 0;
+	transition: height 500ms;
 }
 
 
@@ -52,3 +53,12 @@
 	clear: both;
 }
 
+/*
+	.our {
+		height 0
+		transition height 800ms
+	}
+	.our:hover {
+		height 200px
+	}
+*/

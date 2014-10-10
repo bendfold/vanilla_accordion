@@ -76,11 +76,6 @@ var methods = {
 			myParentNode = this.closest( clickedElem, this.config.panelClass ),
 			panelCollection = this.elems.panelCollection,
 			panelIndex = 0;
-		
-		// console.log( 'clickedElem ', clickedElem );
-		// console.log( 'myParentNode ', myParentNode );
-		// console.log( 'myParentNode ', myParentNode.dataset.index );
-		// console.log( 'panelCollection ', panelCollection );
 
 		if ( myParentNode.classList.contains( this.config.activeClass ) ) {
 			// Remove the active class from my parent
@@ -95,44 +90,17 @@ var methods = {
 			myParentNode.classList.add( this.config.activeClass );
 			// panelIndex = myParentNode.dataset.index;
 			this.numbers.panelIndex = myParentNode.dataset.index;
-			this.showContent( clickedElem );
+			// this.showContent( clickedElem );
 		}
 	},
-	showContent : function ( clickedElem ) {
-		console.log( 'clickedElem ', clickedElem );
-
-		this.cssTransform();
-	},
-	hideContent : function ( clickedElem ) {
-		// TODO - Make a switch here to toggle target height between 0 & max-height
-		console.log( 'clickedElem ', clickedElem );
-	},
-	cssTransform : function () {
-		
-		console.log( 'this.numbers.panelIndex ', typeof this.numbers.panelIndex );
-
-		var panelIndex = parseInt( this.numbers.panelIndex ),
-			targetPanel = this.elems.panelCollection[ panelIndex ],
-			// contentWrapper = targetPanel.childNode(),
-			scrollSpeed = this.config.scrollSpeed,
-			panelHeight = this.numbers.panelHeights[ panelIndex ];
-
-		console.log( 'targetPanel  selecto', targetPanel.querySelector( '.content' ) );
-		console.log( 'targetPanel  selecto', targetPanel.querySelector( '.' + this.config.classNames.contentWrapClass ) );
-		console.log( '.'+ this.config.classNames.contentWrapClass, typeof this.config.classNames.contentWrapClass );
-/*
-	.our {
-		height 0
-		transition height 800ms
-	}
-	.our:hover {
-		height 200px
-	}
-*/
-
-		// contentWrapper.style[this.config.vendorPrefixes.transitionAttributePrefix] = this.config.vendorPrefixes.transformPrefix + ' ' + scrollSpeed + 'ms';
-		// itemWrapper.style[this.config.vendorPrefixes.transformAttributePrefix] = 'translate3d(' + '-' + newXpos + 'px, ' + '-' + newYpos + 'px,  0)';
-	},
+	// TODO - Add later these if you wanna use a JS based animation, ofr now we will css it, maybe do as a fall back
+	// showContent : function ( clickedElem ) {
+	// 	console.log( 'clickedElem ', clickedElem );
+	// },
+	// hideContent : function ( clickedElem ) {
+	// 	// TODO - Make a switch here to toggle target height between 0 & max-height
+	// 	console.log( 'clickedElem ', clickedElem );
+	// },
 	wrapElem : function ( targetElem ) {
 		
 		var docFrag = document.createDocumentFragment(),
@@ -146,19 +114,6 @@ var methods = {
 
 		return docFrag;
 	},
-
-	// wrapInViewport : function ( ) {
-	// 	var caroWrapper = this.elems.wrapperElem[0];
-	// 	var docFrag = document.createDocumentFragment();
-	// 	var viewPort = document.createElement( 'div' );
-	// 	viewPort.classList.add( 'caro-frame', 'cFix' );
-	// 	docFrag.appendChild( viewPort );
-	// 	docFrag.childNodes[0].appendChild( caroWrapper );
-	// 	// Get caro list from DOM
-	// 	return docFrag;
-	// },
-	
-
 	// TODO - LIFT THIS OUT TO LIB
 	closest : function ( sourceElem, selector ) {
 		while ( sourceElem ) {
@@ -167,9 +122,6 @@ var methods = {
 			}
 			sourceElem = sourceElem.parentNode;
 		}
-	},
-	find : function ( sourceElem, selector ) {
-		
 	}
 }
 
