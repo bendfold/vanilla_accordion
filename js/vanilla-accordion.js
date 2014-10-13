@@ -4,7 +4,6 @@ var VanillaAccordion = function( el, extendObj ) {
 	var defaults = {
 			"jsActiveClass" : "accordion-init",
 			"vendorPrefixes" : oTools.fn.setVendorPrefix(),
-			"panelHeights" : [],
 			"classNames" : {
 				"contentWrapClass" : "content-wrapper"
 			},
@@ -80,27 +79,27 @@ var methods = {
 		if ( myParentNode.classList.contains( this.config.activeClass ) ) {
 			// Remove the active class from my parent
 			myParentNode.classList.remove( this.config.activeClass );
+			var myContentWrapper = myParentNode.querySelector( '.content-wrapper' );
+			myContentWrapper.style.height = 0;
 			// panelIndex = myParentNode.dataset.index;
 		} else {
 			// Remove all visble classes
 			for ( var i = 0; i < panelCollection.length; i += 1 ) {
 				panelCollection[i].classList.remove( this.config.activeClass );
+				
+				var myContentWrapper = panelCollection[i].querySelector( '.content-wrapper' );
+				myContentWrapper.style.height = 0;
+			
 			}
 			// Add the active class to the parent node
 			myParentNode.classList.add( this.config.activeClass );
 			// panelIndex = myParentNode.dataset.index;
 			this.numbers.panelIndex = myParentNode.dataset.index;
+			console.log( this.numbers.panelHeights[ this.numbers.panelIndex ] );
+			myParentNode.querySelector('.content-wrapper').style.height = this.numbers.panelHeights[ this.numbers.panelIndex ] + 'px';
 			// this.showContent( clickedElem );
 		}
 	},
-	// TODO - Add later these if you wanna use a JS based animation, ofr now we will css it, maybe do as a fall back
-	// showContent : function ( clickedElem ) {
-	// 	console.log( 'clickedElem ', clickedElem );
-	// },
-	// hideContent : function ( clickedElem ) {
-	// 	// TODO - Make a switch here to toggle target height between 0 & max-height
-	// 	console.log( 'clickedElem ', clickedElem );
-	// },
 	wrapElem : function ( targetElem ) {
 		
 		var docFrag = document.createDocumentFragment(),
