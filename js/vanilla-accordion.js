@@ -3,7 +3,6 @@
 var VanillaAccordion = function( el, extendObj ) {
 	var defaults = {
 			"jsActiveClass" : "accordion-init",
-			"vendorPrefixes" : oTools.fn.setVendorPrefix(),
 			"classNames" : {
 				"contentWrapClass" : "content-wrapper"
 			},
@@ -14,16 +13,14 @@ var VanillaAccordion = function( el, extendObj ) {
 			el : el,
 			panelCollection : el.getElementsByClassName( config.panelClass ),
 			triggerCollection : el.getElementsByClassName( config.trigger ),
+			contentWrapperCollection : []
 		};
-
-
-	// console.log( 'defaults ', defaults);
+	// Make a number object to store our globally used numbers in
 	this.numbers = {
 		"panelHeights" : []
 	}
 	// Create global config object
 	this.config = oTools.fn.extendObj( defaults, config );
-
 	// Make objects availible to rest of script
 	this.elems = elems;
 	// Kick it off
@@ -33,8 +30,6 @@ var VanillaAccordion = function( el, extendObj ) {
 
 var methods = {
 	init : function() {
-		// Set vendor preixes for animation etc
-		// oTools.fn.setVendorPrefix( this.config.vendorPrefixes );
 		// Set up the HTML accordingly
 		this.setupMarkup();
 		// Attach click events to panel headers
@@ -58,9 +53,16 @@ var methods = {
 			// Add our wrapped content to the DOM
 			panelCollection[i].appendChild( wrappedContent );
 
+			// TODO - try and store a reference to the content wrapper so we dont have to keep going into the DoM for it
+			// instead make an array and use the data-index to choose the one you wanna height
+			console.log(panelCollection[i].querySelector('.content-wrapper') )
+			this.elems.contentWrapperCollection.push( panelCollection[i].querySelector('.content-wrapper') );
+
+
 			// Meausure the height of each inner content div
 			this.numbers.panelHeights.push( targetElem[0].offsetHeight );
 		}
+		console.log( 'this.elems ', this.elems );
 		return true;
 	},
 	attachEvents : function () {
@@ -77,28 +79,36 @@ var methods = {
 			panelIndex = 0;
 
 		if ( myParentNode.classList.contains( this.config.activeClass ) ) {
+
 			// Remove the active class from my parent
 			myParentNode.classList.remove( this.config.activeClass );
-			var myContentWrapper = myParentNode.querySelector( '.content-wrapper' );
-			myContentWrapper.style.height = 0;
-			// panelIndex = myParentNode.dataset.index;
-		} else {
-			// Remove all visble classes
-			for ( var i = 0; i < panelCollection.length; i += 1 ) {
-				panelCollection[i].classList.remove( this.config.activeClass );
-				
-				var myContentWrapper = panelCollection[i].querySelector( '.content-wrapper' );
-				myContentWrapper.style.height = 0;
 			
+			this.numbers.panelIndex = myParentNode.dataset.index;
+			
+			this.elems.contentWrapperCollection[ this.numbers.panelIndex ].style.height = 0;
+
+			this.retractContainer();
+
+		} else {
+			// Run through all the panels and check for visble classes
+			for ( var i = 0; i < panelCollection.length; i += 1 ) {
+				// If a panel has this class
+				if ( panelCollection[i].classList.contains( this.config.activeClass ) ) {
+					// Rmeove the class
+					panelCollection[i].classList.remove( this.config.activeClass );
+					// Retract the panel
+					this.elems.contentWrapperCollection[i].style.height = 0;
+				}
 			}
 			// Add the active class to the parent node
 			myParentNode.classList.add( this.config.activeClass );
-			// panelIndex = myParentNode.dataset.index;
 			this.numbers.panelIndex = myParentNode.dataset.index;
-			console.log( this.numbers.panelHeights[ this.numbers.panelIndex ] );
-			myParentNode.querySelector('.content-wrapper').style.height = this.numbers.panelHeights[ this.numbers.panelIndex ] + 'px';
-			// this.showContent( clickedElem );
+			
+			this.elems.contentWrapperCollection[ this.numbers.panelIndex ].style.height = this.numbers.panelHeights[ this.numbers.panelIndex ] + 'px';
 		}
+	},
+	retractContainer : function () {
+
 	},
 	wrapElem : function ( targetElem ) {
 		
@@ -107,9 +117,6 @@ var methods = {
 		contentWrapper.classList.add( this.config.classNames.contentWrapClass );
 		docFrag.appendChild( contentWrapper );
 		docFrag.childNodes[0].appendChild( targetElem );
-		
-		// console.log( 'docFrag.childNodes[0] ', docFrag.childNodes[0] );
-		// console.log( 'targetElem ', typeof targetElem );
 
 		return docFrag;
 	},
