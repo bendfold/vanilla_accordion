@@ -57,8 +57,7 @@ var methods = {
 			// instead make an array and use the data-index to choose the one you wanna height
 			console.log(panelCollection[i].querySelector('.content-wrapper') )
 			this.elems.contentWrapperCollection.push( panelCollection[i].querySelector('.content-wrapper') );
-
-
+			
 			// Meausure the height of each inner content div
 			this.numbers.panelHeights.push( targetElem[0].offsetHeight );
 		}
@@ -79,16 +78,10 @@ var methods = {
 			panelIndex = 0;
 
 		if ( myParentNode.classList.contains( this.config.activeClass ) ) {
-
 			// Remove the active class from my parent
 			myParentNode.classList.remove( this.config.activeClass );
-			
-			// this.numbers.panelIndex = myParentNode.dataset.index;
-			
-			// this.elems.contentWrapperCollection[ this.numbers.panelIndex ].style.height = 0;
-
+			// Retract the conatiner
 			this.retractContainer( myParentNode.dataset.index );
-
 		} else {
 			// Run through all the panels and check for visble classes
 			for ( var i = 0; i < panelCollection.length; i += 1 ) {
@@ -97,22 +90,20 @@ var methods = {
 					// Rmeove the class
 					panelCollection[i].classList.remove( this.config.activeClass );
 					// Retract the panel
-					// this.elems.contentWrapperCollection[i].style.height = 0;
 					this.retractContainer( i );
 				}
 			}
 			// Add the active class to the parent node
 			myParentNode.classList.add( this.config.activeClass );
-			this.numbers.panelIndex = myParentNode.dataset.index;
-			
-			this.elems.contentWrapperCollection[ this.numbers.panelIndex ].style.height = this.numbers.panelHeights[ this.numbers.panelIndex ] + 'px';
+			// Expand the container wrapper
+			this.expandContainer( myParentNode.dataset.index );
 		}
 	},
 	retractContainer : function ( panelIndex ) {
 		this.elems.contentWrapperCollection[ panelIndex ].style.height = 0;
 	},
-	expandContainer : function () {
-
+	expandContainer : function ( panelIndex ) {
+		this.elems.contentWrapperCollection[ panelIndex ].style.height = this.numbers.panelHeights[ panelIndex ] + 'px';
 	},
 	wrapElem : function ( targetElem ) {
 		
