@@ -38,7 +38,8 @@ var methods = {
 	setupMarkup : function() {
 		var el = this.elems.el,
 			config = this.config,
-			panelCollection = this.elems.panelCollection;
+			panelCollection = this.elems.panelCollection,
+			contentWrapSelector = ('.' + this.config.classNames.contentWrapClass);
 		// Add class to wrapper to let CSS know we can hide the content
 		el.classList.add( this.config.jsActiveClass );
 		// Process the panels and set a few things up
@@ -53,15 +54,12 @@ var methods = {
 			// Add our wrapped content to the DOM
 			panelCollection[i].appendChild( wrappedContent );
 
-			// TODO - try and store a reference to the content wrapper so we dont have to keep going into the DoM for it
-			// instead make an array and use the data-index to choose the one you wanna height
-			console.log(panelCollection[i].querySelector('.content-wrapper') )
-			this.elems.contentWrapperCollection.push( panelCollection[i].querySelector('.content-wrapper') );
-			
+			// Make an array and use the data-index to choose the one you wanna change the height of
+			this.elems.contentWrapperCollection.push( panelCollection[i].querySelector( contentWrapSelector ) );
+
 			// Meausure the height of each inner content div
 			this.numbers.panelHeights.push( targetElem[0].offsetHeight );
 		}
-		console.log( 'this.elems ', this.elems );
 		return true;
 	},
 	attachEvents : function () {
@@ -73,7 +71,7 @@ var methods = {
 	},
 	toogleVisibility : function ( self ) {
 		var clickedElem = self.target,
-			myParentNode = this.closest( clickedElem, this.config.panelClass ),
+			myParentNode =  oTools.fn.closest( clickedElem, this.config.panelClass ),
 			panelCollection = this.elems.panelCollection,
 			panelIndex = 0;
 
@@ -114,15 +112,6 @@ var methods = {
 		docFrag.childNodes[0].appendChild( targetElem );
 
 		return docFrag;
-	},
-	// TODO - LIFT THIS OUT TO LIB
-	closest : function ( sourceElem, selector ) {
-		while ( sourceElem ) {
-			if( sourceElem.classList.contains(selector) ){
-				return sourceElem;
-			}
-			sourceElem = sourceElem.parentNode;
-		}
 	}
 }
 

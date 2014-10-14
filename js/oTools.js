@@ -87,5 +87,14 @@ oTools.fn.setVendorPrefix = function ( ) {
 	return vendorPrefixes;
 };
 
+oTools.fn.closest = function ( sourceElem, selector ) {
+	while ( sourceElem ) {
+		if( sourceElem.classList.contains(selector) ){
+			return sourceElem;
+		}
+		sourceElem = sourceElem.parentNode;
+	}
+};
+
 
 window.oTools = window.$oT = oTools;
