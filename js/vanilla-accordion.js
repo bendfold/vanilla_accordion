@@ -83,11 +83,11 @@ var methods = {
 			// Remove the active class from my parent
 			myParentNode.classList.remove( this.config.activeClass );
 			
-			this.numbers.panelIndex = myParentNode.dataset.index;
+			// this.numbers.panelIndex = myParentNode.dataset.index;
 			
-			this.elems.contentWrapperCollection[ this.numbers.panelIndex ].style.height = 0;
+			// this.elems.contentWrapperCollection[ this.numbers.panelIndex ].style.height = 0;
 
-			this.retractContainer();
+			this.retractContainer( myParentNode.dataset.index );
 
 		} else {
 			// Run through all the panels and check for visble classes
@@ -97,7 +97,8 @@ var methods = {
 					// Rmeove the class
 					panelCollection[i].classList.remove( this.config.activeClass );
 					// Retract the panel
-					this.elems.contentWrapperCollection[i].style.height = 0;
+					// this.elems.contentWrapperCollection[i].style.height = 0;
+					this.retractContainer( i );
 				}
 			}
 			// Add the active class to the parent node
@@ -107,7 +108,10 @@ var methods = {
 			this.elems.contentWrapperCollection[ this.numbers.panelIndex ].style.height = this.numbers.panelHeights[ this.numbers.panelIndex ] + 'px';
 		}
 	},
-	retractContainer : function () {
+	retractContainer : function ( panelIndex ) {
+		this.elems.contentWrapperCollection[ panelIndex ].style.height = 0;
+	},
+	expandContainer : function () {
 
 	},
 	wrapElem : function ( targetElem ) {
